@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hasin.Core", "Hasin.Core\Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hasin.Infrastructure", "Hasin.Infrastructure\Hasin.Infrastructure.csproj", "{DDFF045B-0614-454F-9EB1-9C07E8C6CA64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hasin.Web", "Hasin.Web\Hasin.Web.csproj", "{6E1BE2D8-DA6A-4A7B-8646-9D16B0101B37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hasin.Api", "Hasin.Api\Hasin.Api.csproj", "{6E1BE2D8-DA6A-4A7B-8646-9D16B0101B37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
