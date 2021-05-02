@@ -7,6 +7,7 @@ namespace Hasin.Infrastructure
     public interface IUnitOfWork
     {
         IPhoneBookRecordRepository PhoneBookRecordRepository { get; }
+        ITagRepository TagRepository { get; }
 
         void Commit();
         Task<int> CommitAsync(CancellationToken cancellationToken = default);

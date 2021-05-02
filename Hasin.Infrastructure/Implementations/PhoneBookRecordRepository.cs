@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Hasin.Core.Entities.PhoneBookRecordAggregate;
+using Hasin.Core.Entities;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Implementations;
 using Hasin.Infrastructure.Interfaces;
@@ -16,7 +16,7 @@ namespace tadbir.Repository.Implementations
 
         public override async Task<PhoneBookRecord> GetAsync(int phoneBookRecordId, CancellationToken cancellationToken)
         {
-            return await _dbContext.PhoneBookRecords.Include(i => i.Tags).FirstOrDefaultAsync(i => i.Id == phoneBookRecordId, cancellationToken);
+            return await _dbContext.PhoneBookRecords.Include(i => i.PhoneBookTags).FirstOrDefaultAsync(i => i.Id == phoneBookRecordId, cancellationToken);
         }
     }
 }

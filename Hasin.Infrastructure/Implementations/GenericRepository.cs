@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hasin.Infrastructure.Implementations
 {
-    public abstract class GenericRepository<T, K> : IGenericRepository<T, K> where T : BaseEntity
+    public abstract class GenericRepository<T, TKey> : IGenericRepository<T, TKey> where T : BaseEntity
     {
         protected readonly HasinContext _dbContext;
 
@@ -27,12 +27,12 @@ namespace Hasin.Infrastructure.Implementations
             return await _dbContext.Set<T>().ToListAsync(cancellationToken);
         }
 
-        public virtual T Get(K key)
+        public virtual T Get(TKey key)
         {
             return _dbContext.Set<T>().Find(key);
         }
 
-        public virtual async Task<T> GetAsync(K key, CancellationToken cancellationToken)
+        public virtual async Task<T> GetAsync(TKey key, CancellationToken cancellationToken)
         {
             return await _dbContext.Set<T>().FindAsync(new object[] { key }, cancellationToken);
         }
@@ -48,7 +48,7 @@ namespace Hasin.Infrastructure.Implementations
             _dbContext.Set<T>().Remove(entity);
         }
 
-        public virtual async Task DeleteAsync(K key, CancellationToken cancellationToken)
+        public virtual async Task DeleteAsync(TKey key, CancellationToken cancellationToken)
         {
             T exist = await _dbContext.Set<T>().FindAsync(new object[] { key }, cancellationToken);
             if (exist != null)
@@ -57,7 +57,7 @@ namespace Hasin.Infrastructure.Implementations
             }
         }
 
-        public virtual T Update(T t, K key)
+        public virtual T Update(T t, TKey key)
         {
             if (t == null)
                 return null;
@@ -69,7 +69,7 @@ namespace Hasin.Infrastructure.Implementations
             return exist;
         }
 
-        public virtual async Task<T> UpdateAsync(T t, K key, CancellationToken cancellationToken)
+        public virtual async Task<T> UpdateAsync(T t, TKey key, CancellationToken cancellationToken)
         {
             if (t == null)
                 return null;

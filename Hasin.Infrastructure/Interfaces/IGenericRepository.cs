@@ -6,25 +6,25 @@ using Hasin.Core.Entities;
 
 namespace Hasin.Infrastructure.Interfaces
 {
-    public interface IGenericRepository<T, K> where T : BaseEntity
+    public interface IGenericRepository<T, TKey> where T : BaseEntity
     {
         T Add(T t);
 
         void Delete(T entity);
 
-        Task DeleteAsync(K key, CancellationToken cancellationToken = default);
+        Task DeleteAsync(TKey key, CancellationToken cancellationToken = default);
 
-        T Get(K key);
+        T Get(TKey key);
 
         IQueryable<T> GetAll();
 
         Task<ICollection<T>> GetAllAsync(CancellationToken cancellationToken = default);
 
-        Task<T> GetAsync(K key, CancellationToken cancellationToken = default);
+        Task<T> GetAsync(TKey key, CancellationToken cancellationToken = default);
 
-        T Update(T t, K key);
+        T Update(T t, TKey key);
 
-        Task<T> UpdateAsync(T t, K key, CancellationToken cancellationToken = default);
+        Task<T> UpdateAsync(T t, TKey key, CancellationToken cancellationToken = default);
     }
 
 }
