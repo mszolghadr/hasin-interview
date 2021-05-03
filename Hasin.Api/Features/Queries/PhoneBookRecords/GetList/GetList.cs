@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
@@ -9,11 +10,11 @@ using Hasin.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Hasin.Api.EndPoints.PhoneBook
+namespace Hasin.Api.Features.Queries.PhoneBookRecords.GetList
 {
     public class GetList : BaseAsyncEndpoint
        .WithRequest<PhoneBookrecordListRequest>
-       .WithResponse<PaginatedList<PhoneBookRecord>>
+       .WithResponse<PaginatedList<PhoneBookRecordListResult>>
     {
         private readonly IPhoneBookRecordRepository _repository;
         private readonly IMapper _mapper;
@@ -32,8 +33,8 @@ namespace Hasin.Api.EndPoints.PhoneBook
             OperationId = "Record.GetAll",
             Tags = new[] { "Phonebook Records" })
         ]
-        public override async Task<ActionResult<PaginatedList<PhoneBookRecord>>> HandleAsync(
-            [FromQuery] PhoneBookrecordListRequest request,
+        public override async Task<ActionResult<PaginatedList<PhoneBookRecordListResult>>> HandleAsync(
+            PhoneBookrecordListRequest request,
             CancellationToken cancellationToken = default)
         {
             if (request.PageSize == 0)
@@ -44,9 +45,15 @@ namespace Hasin.Api.EndPoints.PhoneBook
             {
                 request.PageNumber = 1;
             }
-            var result = new PaginatedList<PhoneBookRecord>(_repository.GetAll(), request.PageNumber, request.PageSize);
+            var list = await PaginatedList<PhoneBookRecord>.CreateAsync(_repository.GetAll(), request.PageNumber, request.PageSize);
+            var result = new PaginatedList<PhoneBookRecordListResult>(
+              _mapper.Map<List<PhoneBookRecordListResult>>(list.Items),
+              list.TotalCount,
+              list.CurrentPage,
+              list.PageSize
+          );
 
-            return Ok(_mapper.Map<PaginatedList<PhoneBookRecordListResult>>(result));
+            return Ok(result);
         }
     }
 /*

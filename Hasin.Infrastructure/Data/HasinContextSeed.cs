@@ -19,19 +19,17 @@ namespace Hasin.Infrastructure.Data
                 // catalogContext.Database.Migrate();
                 if (!await catalogContext.PhoneBookRecords.AnyAsync())
                 {
-                    await catalogContext.PhoneBookRecords.AddRangeAsync(
-                        GetPreconfiguredPhoneBookRecords());
+                    catalogContext.PhoneBookRecords.AddRange(GetPreconfiguredPhoneBookRecords());
 
                     await catalogContext.SaveChangesAsync();
                 }
 
-                // if (!await catalogContext.CatalogTypes.AnyAsync())
-                // {
-                //     await catalogContext.CatalogTypes.AddRangeAsync(
-                //         GetPreconfiguredCatalogTypes());
+                if (!await catalogContext.Tags.AnyAsync())
+                {
+                    catalogContext.Tags.AddRange(GetPreconfiguredTags());
 
-                //     await catalogContext.SaveChangesAsync();
-                // }
+                    await catalogContext.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -58,15 +56,15 @@ namespace Hasin.Infrastructure.Data
             };
         }
 
-        // static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
-        // {
-        //     return new List<CatalogType>()
-        //     {
-        //         new CatalogType("Mug"),
-        //         new CatalogType("T-Shirt"),
-        //         new CatalogType("Sheet"),
-        //         new CatalogType("USB Memory Stick")
-        //     };
-        // }
+        static IEnumerable<Tag> GetPreconfiguredTags()
+        {
+            return new List<Tag>()
+            {
+                new Tag("Mug"),
+                new Tag("T-Shirt"),
+                new Tag("Sheet"),
+                new Tag("USB Memory Stick")
+            };
+        }
     }
 }

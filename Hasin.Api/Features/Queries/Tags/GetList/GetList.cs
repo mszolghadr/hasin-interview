@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using Hasin.Api.EndPoints.Tags;
 using Hasin.Core.Entities;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Data;
@@ -9,7 +11,7 @@ using Hasin.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Hasin.Api.EndPoints.Tags
+namespace Hasin.Api.Features.Queries.Tags.GetList
 {
     public class GetList : BaseAsyncEndpoint
        .WithRequest<TagListRequest>
@@ -42,8 +44,13 @@ namespace Hasin.Api.EndPoints.Tags
             {
                 request.PageNumber = 1;
             }
-            var result = new PaginatedList<Tag>(_repository.GetAll(), request.PageNumber, request.PageSize);
-            var response = _mapper.Map<PaginatedList<TagResponse>>(result);
+            var result = await PaginatedList<Tag>.CreateAsync(_repository.GetAll(), request.PageNumber, request.PageSize);
+            var response = new PaginatedList<TagResponse>(
+               _mapper.Map<List<TagResponse>>(result.Items),
+               result.TotalCount,
+               result.CurrentPage,
+               result.PageSize
+           );
 
             return Ok(response);
         }

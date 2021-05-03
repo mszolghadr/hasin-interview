@@ -8,11 +8,7 @@ namespace Hasin.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            builder.OwnsMany(r => r.PhoneBookTags, io =>
-            {
-                // io.WithOwner(o => o.Tag);
-                io.HasKey(k => new { k.PhoneBookRecordId, k.TagId });
-            });
+            // builder.OwnsMany(r => r.PhoneBookTags);
             var navigation = builder.Metadata.FindNavigation(nameof(Tag.PhoneBookTags));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }

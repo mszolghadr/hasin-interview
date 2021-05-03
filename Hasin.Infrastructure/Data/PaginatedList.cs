@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hasin.Infrastructure.Data
 {
@@ -21,7 +24,7 @@ namespace Hasin.Infrastructure.Data
         {
             get
             {
-                return (CurrentPage > 1);
+                return CurrentPage > 1;
             }
         }
 
@@ -29,21 +32,32 @@ namespace Hasin.Infrastructure.Data
         {
             get
             {
-                return (CurrentPage < TotalPages);
+                return CurrentPage < TotalPages;
             }
         }
 
-        public List<T> Items { get; protected set; }
+        public List<T> Items { get; private set; }
 
-        public PaginatedList(IQueryable<T> source, int currentPage, int pageSize)
+        public PaginatedList(List<T> items, int count, int currentPage, int pageSize)
         {
             CurrentPage = currentPage;
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            TotalCount = count;
             PageSize = pageSize;
+            From = ((currentPage - 1) * pageSize) + 1;
+            To = From + pageSize - 1;
+            Items = items;
+        }
 
-            TotalCount = source.Count();
-            Items = source.Skip(
+        public static async Task<PaginatedList<T>> CreateAsync(
+        IQueryable<T> source, int currentPage, int pageSize)
+        {
+            var count = source.CountAsync();
+            var list = source.Skip(
                (currentPage - 1) * pageSize)
-               .Take(pageSize).ToList();
+               .Take(pageSize).ToListAsync();
+            await Task.WhenAll(new Task[] { count, list });
+            return new PaginatedList<T>(list.Result, count.Result, currentPage, pageSize);
         }
     }
 }

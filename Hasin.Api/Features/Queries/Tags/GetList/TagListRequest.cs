@@ -1,6 +1,6 @@
 using Hasin.Api.DTOs;
 
-namespace Hasin.Api.EndPoints.Tags
+namespace Hasin.Api.Features.Queries.Tags.GetList
 {
     public class TagListRequest : PagedListRequest
     {
