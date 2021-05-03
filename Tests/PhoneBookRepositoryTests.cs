@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Hasin.Core.Entities;
 using Hasin.Infrastructure;
@@ -12,7 +15,6 @@ namespace Tests
     public class PhoneBookRepositoryTests : IClassFixture<UnitOfWorkFixture>
     {
         private readonly IPhoneBookRecordRepository _phonebookRepository;
-        private readonly ITagRepository _tagRepository;
         private readonly HasinContext _context;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggerFactory _loggerFactory;
@@ -21,32 +23,35 @@ namespace Tests
         {
             _unitOfWork = unitOfWorkFixture.UnitOfWork;
             _phonebookRepository = unitOfWorkFixture.UnitOfWork.PhoneBookRecordRepository;
-            _tagRepository = unitOfWorkFixture.UnitOfWork.TagRepository;
             _context = unitOfWorkFixture.Context;
             _loggerFactory = unitOfWorkFixture.LoggerFactory;
         }
 
         [Fact]
-        public async Task GetPhoneBookRecords_AfterSeed_ShouldReturnSeed()
-        {
-            await HasinContextSeed.SeedAsync(_context, _loggerFactory);
-            var list = await _phonebookRepository.GetAllAsync();
-            var tags = await _tagRepository.GetAllAsync();
-            
-            Assert.Equal(5, list.Count);
-            Assert.Equal(4, tags.Count);
-        }
-
-        [Fact]
-        public async Task AddPhoneBook_WhenCommited_ShouldAddNewRecord()
+        public async Task AddPhoneBook_Should_AddNewRecord()
         {
             var newRecord = new PhoneBookRecord("new record", "with phonenumber");
             _phonebookRepository.Add(newRecord);
 
             await _unitOfWork.CommitAsync();
 
-            var allRecords = await _phonebookRepository.GetAllAsync();
-            Assert.Equal(6, allRecords.Count);
+            var addedRecord = await _phonebookRepository.GetAsync(newRecord.Id);
+            Assert.Equal("with phonenumber", addedRecord.PhoneNumber);
+        }
+
+
+        [Fact]
+        public async Task FindPhoneBookByTag_Should_FindRecord()
+        {
+            var newRecord = new PhoneBookRecord("new record", "with tag");
+            newRecord.UpdateTags(new List<int> { 1 });
+            _phonebookRepository.Add(newRecord);
+
+            await _unitOfWork.CommitAsync();
+
+            var addedRecord = await _phonebookRepository.GetAsync(newRecord.Id);
+            Assert.Equal(1, addedRecord.PhoneBookTags.Count);
+            Assert.Equal("with tag", addedRecord.PhoneNumber);
         }
     }
 }

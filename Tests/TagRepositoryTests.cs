@@ -35,7 +35,7 @@ namespace Tests
         }
 
         [Fact]
-        public async Task AddTag_Should_AddNewRecord()
+        public async Task AddTag_Should_AddNewTag()
         {
             var newRecord = new Tag("Tast Tag");
             _tagRepository.Add(newRecord);
