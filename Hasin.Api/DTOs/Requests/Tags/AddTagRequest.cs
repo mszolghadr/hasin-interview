@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Hasin.Api.EndPoints.Tags
+namespace Hasin.Api.DTOs.Requests.Tags
 {
     public class AddTagRequest
     {

@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using Hasin.Api.DTOs.Requests.PhoneBookRecords;
+using Hasin.Api.DTOs.Responses.PhoneBookRecords;
 using Hasin.Core.Entities;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Data;
@@ -34,7 +36,7 @@ namespace Hasin.Api.Features.Queries.PhoneBookRecords.GetList
             Tags = new[] { "Phonebook Records" })
         ]
         public override async Task<ActionResult<PaginatedList<PhoneBookRecordListResult>>> HandleAsync(
-            PhoneBookrecordListRequest request,
+            [FromQuery] PhoneBookrecordListRequest request,
             CancellationToken cancellationToken = default)
         {
             if (request.PageSize == 0)

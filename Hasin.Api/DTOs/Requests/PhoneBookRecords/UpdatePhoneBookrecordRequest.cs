@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Hasin.Api.Features.Commands.PhoneBookRecords.AddPhoneBook;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hasin.Api.Features.Commands.PhoneBookRecords.UpdatePhoneBook
+namespace Hasin.Api.DTOs.Requests.PhoneBookRecords
 {
     public class UpdatePhoneBookrecordRequest
     {

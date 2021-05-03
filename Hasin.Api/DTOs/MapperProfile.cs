@@ -1,7 +1,8 @@
+using System.Linq;
 using AutoMapper;
-using Hasin.Api.EndPoints.Tags;
-using Hasin.Api.Features.Commands.PhoneBookRecords.UpdatePhoneBook;
-using Hasin.Api.Features.Queries.PhoneBookRecords.GetList;
+using Hasin.Api.DTOs.Requests.PhoneBookRecords;
+using Hasin.Api.DTOs.Responses.PhoneBookRecords;
+using Hasin.Api.DTOs.Responses.Tags;
 using Hasin.Core.Entities;
 
 namespace Hasin.Api.DTOs
@@ -17,8 +18,7 @@ namespace Hasin.Api.DTOs
             #region  phonebook
             CreateMap<PhoneBookRecord, PhoneBookRecordListResult>();
 
-            CreateMap<UpdatePhoneBookrecordRequest, PhoneBookRecord>()
-                .ForMember(p => p.Id, option => option.Ignore());
+            CreateMap<AddPhoneBookrecordRequest, PhoneBookRecord>();
             #endregion
         }
     }

@@ -1,7 +1,7 @@
-using Hasin.Api.DTOs;
+using Hasin.Api.DTOs.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hasin.Api.Features.Queries.PhoneBookRecords.FindByTag
+namespace Hasin.Api.DTOs.Requests.PhoneBookRecords
 {
     public class FindRecordByTagRequest : PagedListRequest
     {

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using Hasin.Api.DTOs.Requests.PhoneBookRecords;
 using Hasin.Core.Entities;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Interfaces;

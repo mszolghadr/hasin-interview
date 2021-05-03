@@ -1,4 +1,4 @@
-namespace Hasin.Api.Features.Queries.PhoneBookRecords.GetList
+namespace Hasin.Api.DTOs.Responses.PhoneBookRecords
 {
     public class PhoneBookRecordListResult
     {

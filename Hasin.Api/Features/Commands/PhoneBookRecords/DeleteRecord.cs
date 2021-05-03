@@ -1,8 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
-using AutoMapper;
-using Hasin.Core.Entities;
+using Hasin.Api.DTOs.Requests.PhoneBookRecords;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;

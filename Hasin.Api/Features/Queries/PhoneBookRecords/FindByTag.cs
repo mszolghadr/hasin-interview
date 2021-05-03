@@ -3,7 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
-using Hasin.Api.Features.Queries.PhoneBookRecords.GetList;
+using Hasin.Api.DTOs.Requests.PhoneBookRecords;
+using Hasin.Api.DTOs.Responses.PhoneBookRecords;
 using Hasin.Core.Entities;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Data;
@@ -13,14 +14,14 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Hasin.Api.Features.Queries.PhoneBookRecords.FindByTag
 {
-    public class GetListByTag : BaseAsyncEndpoint
+    public class FindByTag : BaseAsyncEndpoint
        .WithRequest<FindRecordByTagRequest>
        .WithResponse<PaginatedList<PhoneBookRecordListResult>>
     {
         private readonly IPhoneBookRecordRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetListByTag(IUnitOfWork unitOfWork,IMapper mapper)
+        public FindByTag(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _mapper = mapper;
             _repository = unitOfWork.PhoneBookRecordRepository;

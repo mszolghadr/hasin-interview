@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hasin.Api.DTOs
+namespace Hasin.Api.DTOs.Shared
 {
     public abstract class PagedListRequest
     {
