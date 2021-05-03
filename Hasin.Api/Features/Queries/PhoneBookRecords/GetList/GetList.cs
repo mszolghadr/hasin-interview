@@ -26,7 +26,7 @@ namespace Hasin.Api.Features.Queries.PhoneBookRecords.GetList
             _mapper = mapper;
             _repository = unitOfWork.PhoneBookRecordRepository;
         }
-        [HttpGet("/records")]
+        [HttpGet("/Records")]
         [SwaggerOperation(
             Summary = "Get PhoneBookRecord List",
             Description = "This list is paginated",

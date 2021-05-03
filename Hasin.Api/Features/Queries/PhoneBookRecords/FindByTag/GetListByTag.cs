@@ -26,11 +26,11 @@ namespace Hasin.Api.Features.Queries.PhoneBookRecords.FindByTag
             _repository = unitOfWork.PhoneBookRecordRepository;
         }
 
-        [HttpGet("/records/bytag/{tagId:int}")]
+        [HttpGet("/Records/FindByTag/{tagId}")]
         [SwaggerOperation(
-            Summary = "Get PhoneBookRecord List By Tag Id",
+            Summary = "Find PhoneBookRecords having this tag",
             Description = "This list is paginated",
-            OperationId = "Record.GetByTag",
+            OperationId = "Record.FindByTagId",
             Tags = new[] { "Phonebook Records" })
         ]
         public override async Task<ActionResult<PaginatedList<PhoneBookRecordListResult>>> HandleAsync(

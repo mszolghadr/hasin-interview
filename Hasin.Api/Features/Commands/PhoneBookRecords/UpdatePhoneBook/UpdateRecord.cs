@@ -5,42 +5,45 @@ using AutoMapper;
 using Hasin.Core.Entities;
 using Hasin.Infrastructure;
 using Hasin.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Hasin.Api.EndPoints.PhoneBook
+namespace Hasin.Api.Features.Commands.PhoneBookRecords.UpdatePhoneBook
 {
-    public class AddRecord : BaseAsyncEndpoint
-       .WithRequest<AddPhoneBookrecordRequest>
+    public class UpdateRecord : BaseAsyncEndpoint
+       .WithRequest<UpdatePhoneBookrecordRequest>
        .WithResponse<PhoneBookRecord>
     {
         private readonly IPhoneBookRecordRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public AddRecord(
-            IUnitOfWork unitOfWork,
-            IMapper mapper)
+        public UpdateRecord(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _repository = unitOfWork.PhoneBookRecordRepository;
         }
-        [HttpPost("/records")]
+        [HttpPut("/Records/{id}")]
         [SwaggerOperation(
-            Summary = "Creates a new PhoneBookRecord",
-            Description = "Creates a new phonebook record",
-            OperationId = "Record.Create",
+            Summary = "Updates a PhoneBookRecord",
+            Description = "Updates a phonebook record",
+            OperationId = "Record.Update",
             Tags = new[] { "Phonebook Records" })
         ]
+        [ProducesResponseType(typeof(PhoneBookRecord) ,StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public override async Task<ActionResult<PhoneBookRecord>> HandleAsync(
-            [FromBody] AddPhoneBookrecordRequest request,
+            [FromRoute] UpdatePhoneBookrecordRequest request,
             CancellationToken cancellationToken = default)
         {
-            // var record = _mapper.Map<PhoneBookRecord>(request);
-            PhoneBookRecord record = new() { Name = request.Name, PhoneNumber = request.PhoneNumber };
-            _repository.Add(record);
-            record.UpdateTags(request.TagIds);
+            var record = _repository.Get(request.Id);
+            if (record == null)
+                return NotFound();
+            _mapper.Map(request.Body, record);
+            await _repository.UpdateAsync(record, request.Id, cancellationToken);
+            record.UpdateTags(request.Body.TagIds);
 
             await _unitOfWork.CommitAsync(cancellationToken);
             return Ok(record);

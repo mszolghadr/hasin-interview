@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Hasin.Api.EndPoints.PhoneBook
+namespace Hasin.Api.Features.Commands.PhoneBookRecords.AddPhoneBook
 {
     public class AddPhoneBookrecordRequest
     {
